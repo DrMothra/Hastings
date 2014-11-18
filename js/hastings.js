@@ -12,13 +12,21 @@ Hastings.prototype = new BaseApp();
 
 Hastings.prototype.init = function(container) {
     //Animation
-
+    this.animationTime = 0;
     BaseApp.prototype.init.call(this, container);
 };
 
 Hastings.prototype.update = function() {
 
     BaseApp.prototype.update.call(this);
+
+    //Update vertices
+    for(var i=0; i<this.waveGeometry.geometry.vertices.length; ++i) {
+        this.waveGeometry.geometry.vertices[i].z += Math.sin(this.animationTime - (0.6 * i));
+    }
+
+    this.animationTime += 0.1;
+    this.waveGeometry.geometry.verticesNeedUpdate = true;
 };
 
 Hastings.prototype.createScene = function() {
@@ -40,10 +48,12 @@ Hastings.prototype.createScene = function() {
     var tex = THREE.ImageUtils.loadTexture("images/blue-squares.jpg");
     var planeGeom = new THREE.PlaneGeometry(640, 480, 8, 8);
     var planeMat = new THREE.MeshPhongMaterial( { color: 0x0000ff, map: tex});
-    var plane = new THREE.Mesh(planeGeom, planeMat);
-    plane.rotation.x = -Math.PI/4;
+    this.waveGeometry = new THREE.Mesh(planeGeom, planeMat);
 
-    this.scene.add(plane);
+
+    this.waveGeometry.rotation.x = -Math.PI/4;
+
+    this.scene.add(this.waveGeometry);
 
     //Root node
     this.root = new THREE.Object3D();
