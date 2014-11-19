@@ -152,7 +152,7 @@ BaseApp.prototype.createScene = function() {
 BaseApp.prototype.createCamera = function() {
 
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 5000 );
-    this.camera.position.set(0, 0, 400 );
+    this.camera.position.set(0, 300, 500 );
 
     console.log('dom =', this.renderer.domElement);
 };
