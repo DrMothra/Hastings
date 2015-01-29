@@ -17,12 +17,12 @@ Hastings.prototype.init = function(container) {
     this.totalRot = 0;
     this.waveAmplitude = 1;
     this.WaveDelay = this.rotationInc;
+    this.numberRows = 5;
+    this.tilesPerRow = 6;
     BaseApp.prototype.init.call(this, container);
 };
 
 Hastings.prototype.update = function() {
-
-    BaseApp.prototype.update.call(this);
 
     //Update vertices
     for(var i=0; i<this.waveGeometry.geometry.vertices.length; ++i) {
@@ -31,22 +31,24 @@ Hastings.prototype.update = function() {
 
     this.waveGeometry.geometry.verticesNeedUpdate = true;
 
-    //Single tile
-    var offset = this.waveAmplitude * Math.sin(this.totalRot)/64;
-    for(var tile=0; tile<this.tiles.length; ++tile) {
-        this.tiles[tile].rotation.x = offset - Math.PI/2;
+    //Adjust rotation for each row
+    var tileNumber = 0;
+    for(var row=0; row<this.numberRows; ++row) {
+        for(var tile=0; tile<this.tilesPerRow; ++tile) {
+            this.tiles[tileNumber++].rotation.x = (this.waveAmplitude * Math.sin(this.totalRot+(this.rotationInc*20*row))/64) - Math.PI/2;
+        }
     }
 
-
-    //DEBUG
-    console.log('Offset =', offset);
-
     this.totalRot += this.rotationInc;
+
+    BaseApp.prototype.update.call(this);
 };
 
 Hastings.prototype.createScene = function() {
     //Init base createsScene
     BaseApp.prototype.createScene.call(this);
+
+    var _this = this;
 
     //Place marker where light is
     var boxGeom = new THREE.BoxGeometry(2, 2, 2);
@@ -69,28 +71,46 @@ Hastings.prototype.createScene = function() {
     this.scene.add(this.waveGeometry);
 
     //Individual tiles
+    //Group tiles
+    this.tileGroup = new THREE.Object3D();
+    this.tileGroup.name = 'tileGroup';
+    this.scene.add(this.tileGroup);
+
     this.tiles = [];
-    var startX = -150;
-    var incX = 100;
-    for(var tile=0; tile<4; ++tile) {
-        planeGeom = new THREE.PlaneGeometry(80, 60, 2, 2);
-        planeMat = new THREE.MeshPhongMaterial( {color: 0xff0000});
-        this.tiles.push(new THREE.Mesh(planeGeom, planeMat));
-        this.tiles[tile].rotation = -Math.PI/2;
-        this.tiles[tile].position.x = startX + (incX*tile);
-        this.tiles[tile].position.y = 5;
-        this.scene.add(this.tiles[tile]);
+    var startX = -250;
+    var startZ = -200;
+    var incX = 100, incZ = 100;
+    var numberTiles = 0;
+
+    for(var row=0; row<this.numberRows; ++row) {
+        for(var tile=0; tile<this.tilesPerRow; ++tile) {
+            planeGeom = new THREE.PlaneGeometry(80, 60, 2, 2);
+            planeMat = new THREE.MeshPhongMaterial( {color: 0xff0000});
+            this.tiles.push(new THREE.Mesh(planeGeom, planeMat));
+            this.tiles[numberTiles].rotation = -Math.PI/2;
+            this.tiles[numberTiles].position.x = startX + (incX * tile);
+            this.tiles[numberTiles].position.y = 5;
+            this.tiles[numberTiles].position.z = startZ + (incZ * row);
+            this.tileGroup.add(this.tiles[numberTiles]);
+            ++numberTiles;
+        }
     }
 
-    //DEBUG
-    //this.scene.add(new THREE.FaceNormalsHelper(this.waveGeometry));
+    //Load teacup
+    var loader = new THREE.OBJMTLLoader();
+    loader.load( 'models/Cup.obj', 'models/Cup.mtl', function ( object ) {
 
-    //Root node
-    /*
-    this.root = new THREE.Object3D();
-    this.root.name = 'root';
-    this.scene.add(this.root);
-    */
+        object.name = 'Cup';
+        object.scale.set(200, 200, 200);
+        object.position.y = -550;
+        object.traverse(function(obj) {
+            if(obj instanceof THREE.Mesh) {
+                obj.visible = false;
+            }
+        });
+        _this.scene.add( object );
+
+    }, null, null );
 };
 
 Hastings.prototype.createGUI = function() {
@@ -98,6 +118,9 @@ Hastings.prototype.createGUI = function() {
     this.guiControls = new function() {
         //Appearance
         this.Wireframe = false;
+        this.MeshVisible = true;
+        this.TilesVisible = true;
+        this.CupVisible = false;
         //Parameters
         this.Amplitude = 1;
         this.WaveDelay = 0.1;
@@ -118,6 +141,26 @@ Hastings.prototype.createGUI = function() {
 
     this.appearance.add(this.guiControls, 'Wireframe', false).onChange(function(value) {
         _this.waveGeometry.material.wireframe = value;
+    });
+    this.appearance.add(this.guiControls, 'MeshVisible', false).onChange(function(value) {
+        _this.waveGeometry.visible = value;
+    });
+    this.appearance.add(this.guiControls, 'TilesVisible', false).onChange(function(value) {
+        _this.tileGroup.traverse(function(obj) {
+            if(obj instanceof THREE.Mesh) {
+                obj.visible = value;
+            }
+        })
+    });
+    this.appearance.add(this.guiControls, 'CupVisible', false).onChange(function(value) {
+        var cup = _this.scene.getObjectByName('Cup', true);
+        if(cup) {
+            cup.traverse(function(obj) {
+                if(obj instanceof THREE.Mesh) {
+                    obj.visible = value;
+                }
+            })
+        }
     });
 
     this.parameters.add(this.guiControls, 'Amplitude', 0.5, 10).onChange(function(value) {
