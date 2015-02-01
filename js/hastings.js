@@ -19,6 +19,7 @@ Hastings.prototype.init = function(container) {
     this.WaveDelay = this.rotationInc;
     this.numberRows = 5;
     this.tilesPerRow = 6;
+    this.channelName = 'hastingsfiltered';
     BaseApp.prototype.init.call(this, container);
 };
 
@@ -111,6 +112,15 @@ Hastings.prototype.createScene = function() {
         _this.scene.add( object );
 
     }, null, null );
+};
+
+//Get real data
+Hastings.prototype.subscribe = function() {
+    //Subscribe to pubnub channel
+    this.channel = PubNubBuffer.subscribe(this.channelName,
+        "sub-c-2eafcf66-c636-11e3-8dcd-02ee2ddab7fe",
+        1000,
+        300);
 };
 
 Hastings.prototype.createGUI = function() {
