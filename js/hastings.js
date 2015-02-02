@@ -25,6 +25,13 @@ Hastings.prototype.init = function(container) {
 
 Hastings.prototype.update = function() {
 
+    //Get amplitude
+    var data = this.channel.getLastValue('wave');
+    if(data != undefined && this.guiControls.PubNub) {
+        this.waveAmplitude = data * this.guiControls.ScaleFactor;
+        console.log('Data = ', data);
+    }
+
     //Update vertices
     for(var i=0; i<this.waveGeometry.geometry.vertices.length; ++i) {
         this.waveGeometry.geometry.vertices[i].z = this.waveAmplitude * Math.sin(this.totalRot - (this.WaveDelay * i));
@@ -112,6 +119,8 @@ Hastings.prototype.createScene = function() {
         _this.scene.add( object );
 
     }, null, null );
+
+    this.subscribe();
 };
 
 //Get real data
@@ -130,6 +139,8 @@ Hastings.prototype.createGUI = function() {
         this.Wireframe = false;
         this.MeshVisible = true;
         this.TilesVisible = true;
+        this.PubNub = false;
+        this.ScaleFactor = 0.1;
         this.CupVisible = false;
         //Parameters
         this.Amplitude = 1;
@@ -173,8 +184,12 @@ Hastings.prototype.createGUI = function() {
         }
     });
 
+    this.parameters.add(this.guiControls, 'PubNub', false);
+    this.parameters.add(this.guiControls, 'ScaleFactor', 0.01, 1);
     this.parameters.add(this.guiControls, 'Amplitude', 0.5, 10).onChange(function(value) {
-        _this.waveAmplitude = value;
+        if(!_this.guiControls.PubNub) {
+            _this.waveAmplitude = value;
+        }
     });
     this.parameters.add(this.guiControls, 'WaveDelay', 0.1, 5).onChange(function(value) {
         _this.WaveDelay = value;
