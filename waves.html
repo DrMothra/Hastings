@@ -6,21 +6,35 @@
 
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="js/smoothie.js?v=0.1"></script>
+    <script type="text/javascript" src="js/pubnub.min.js"></script>
+    <script type="text/javascript" src="js/pubnub_buffer.js?v=0.2"></script>
     <script type="text/javascript" src="js/baseSmoothApp.js?v=0.1"></script>
     <script type="text/javascript" src="js/waves.js?v=0.1"></script>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <link href="css/hastingsStyles.css?v=0.1" rel="stylesheet" type="text/css">
+
 </head>
 <body>
-<canvas id="tide" width="400" height="800">
+<div class="pure-g">
+    <div class="pure-u-1-4">
+        <canvas id="tide" width="480" height="854">
 
-</canvas>
-<canvas id="ripple" width="400" height="100">
+        </canvas>
+    </div>
+    <div class="pure-u-3-4">
+        <canvas id="ripple">
 
-</canvas>
-<canvas id="swell" width="400" height="100">
+        </canvas>
+        <canvas id="swell">
 
-</canvas>
-<canvas id="waves" width="400" height="100">
+        </canvas>
+        <canvas id="waves">
 
-</canvas>
+        </canvas>
+    </div>
+</div>
+
+
 </body>
 </html>
