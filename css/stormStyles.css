@@ -20,13 +20,10 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 body {
-    overflow: hidden;
+
 }
 .centred {
     text-align: center;
-}
-.container {
-    margin-top: 1%;
 }
 .main {
     margin-top: 1%;
