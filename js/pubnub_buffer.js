@@ -95,7 +95,8 @@
         for(i=search_from; i > -1; i--){
             if(this.timestamp_buffer[i] !== undefined){
                 if(this.timestamp_buffer[i] <= due){
-                    return this.value_buffer[i][channelindex];
+                    return { data: this.value_buffer[i][channelindex],
+                        timeStamp: this.timestamp_buffer[i]};
                 }
             }
 	    }
@@ -103,7 +104,8 @@
         for(i=this.size - 1; i > search_from ; i--){
             if(this.timestamp_buffer[i] !== undefined){
                 if(this.timestamp_buffer[i] <= due){
-                    return this.value_buffer[i][channelindex];
+                    return { data: this.value_buffer[i][channelindex],
+                        timeStamp: this.timestamp_buffer[i]};
                 }
             }
         }

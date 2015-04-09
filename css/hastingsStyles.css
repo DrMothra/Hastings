@@ -23,6 +23,12 @@ body {
     margin: 0;
     overflow: hidden;
 }
+.centred {
+    text-align: center;
+}
+.container {
+    margin-top: 1%;
+}
 #tide {
 
 }
