@@ -11,9 +11,10 @@ SmoothApp.prototype = new BaseSmoothApp();
 SmoothApp.prototype.init = function() {
     //Initialise app
     this.data = null;
-    this.lastTimestamp = 0;
-    this.channelName = 'hastings';
+    this.channelName = 'hastingsfiltered';
     this.subscribe();
+    this.streams = ['tide', 'broad', 'wave', 'lower'];
+    this.lastTimestamps = new Array(this.streams.length);
     BaseSmoothApp.prototype.init.call(this);
 };
 
@@ -27,14 +28,12 @@ SmoothApp.prototype.subscribe = function() {
 
 SmoothApp.prototype.update = function() {
     //Perform any updates
-    this.data = this.channel.getLastValue('wave');
-    if(this.data != undefined && this.data.data > 10) {
-        if(this.data.timeStamp !== this.lastTimestamp) {
-            this.lastTimestamp = this.data.timeStamp;
-            //DEBUG
-            //console.log("Timestamp =", this.lastTimestamp);
-            for(var i=0; i<this.smoothies.length; ++i) {
-                this.timeSeries[i].append(this.lastTimestamp, this.data.data);
+    for(var i=0; i<this.streams.length; ++i) {
+        this.data = this.channel.getLastValue(this.streams[i]);
+        if(this.data != undefined) {
+            if(this.data.timeStamp !== this.lastTimestamps[i]) {
+                this.lastTimestamps[i] = this.data.timeStamp;
+                this.timeSeries[i].append(this.lastTimestamps[i], this.data.data);
             }
         }
     }
@@ -42,10 +41,10 @@ SmoothApp.prototype.update = function() {
 
 $(document).ready(function() {
     //Set up smoothie charts
-    var charts = [ { id:'tide', height:0.91, background: '#dcdef0', line: '#475eab', fill: 'rgba(0,0,0,0.3)' },
-        { id: 'swell', height: 0.3, background: '#dceed4', line: '#38b449', fill: 'rgba(0,0,0,0.3)' },
-        { id: 'wave', height: 0.3, background: '#fdecf3', line: '#db1f27', fill: 'rgba(0,0,0,0.3)' },
-        { id: 'ripple', height: 0.3, background: '#e3f5fd', line: '#1896ab', fill: 'rgba(0,0,0,0.3)' } ];
+    var charts = [ { id:'tide', width: 0.158, height: 0.837, background: '#71c5ef', line: '#000000', delay: 7500, max: 360, min: 290 },
+        { id: 'swell', width: 0.763, height: 0.22, background: '#71c5ef', line: '#000000', delay: 100, max: undefined, min: undefined },
+        { id: 'wave', width: 0.763, height: 0.22, background: '#71c5ef', line: '#000000', delay: 100, max: undefined, min: undefined },
+        { id: 'ripple', width: 0.763, height: 0.22, background: '#71c5ef', line: '#000000', delay: 100, max: undefined, min: undefined } ];
 
     var smoothieApp = new SmoothApp(charts);
     //Set any params

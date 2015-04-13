@@ -24,24 +24,19 @@ BaseSmoothApp.prototype.setLineWidth = function(lineWidth) {
 };
 
 BaseSmoothApp.prototype.init = function() {
-    var elem, parentWidth;
+    var canvas;
+    var pageWidth = window.innerWidth;
+    var pageHeight = window.innerHeight;
     for(var i=0; i<this.containers.length; ++i) {
-        this.smoothies.push(new SmoothieChart( {grid:{fillStyle: this.containers[i].background, strokeStyle: 'transparent'}, millisPerPixel:this.mmPerPixel} ));
-        this.smoothies[i].streamTo(document.getElementById(this.containers[i].id), 1);
-        //Set dimensions
-
-        elem = $('#'+this.containers[i].id);
-        parentWidth = elem.parent().width();
-        var canvas = document.getElementById(this.containers[i].id);
-        canvas.width = parentWidth*0.95;
-        //elem.css("width", parentWidth*0.9+"px");
-        //document.getElementById(this.containers[i].id).style.height = "200px";
-        //elem.css("height", window.innerHeight * this.containers[i].height + "px");
-        canvas.height = window.innerHeight * this.containers[i].height;
+        this.smoothies.push(new SmoothieChart( {grid:{fillStyle: this.containers[i].background, strokeStyle: 'transparent'}, millisPerPixel:this.mmPerPixel,
+            labels: {disabled: false}, maxValue: this.containers[i].max, minValue: this.containers[i].min} ));
+        canvas = document.getElementById(this.containers[i].id);
+        canvas.width = pageWidth * this.containers[i].width;
+        canvas.height = pageHeight * this.containers[i].height;
+        this.smoothies[i].streamTo(canvas, this.containers[i].delay);
 
         this.timeSeries.push(new TimeSeries());
-        this.smoothies[i].addTimeSeries(this.timeSeries[i], { lineWidth: this.lineWidth, strokeStyle: this.containers[i].line
-            });
+        this.smoothies[i].addTimeSeries(this.timeSeries[i], { lineWidth: this.lineWidth, strokeStyle: this.containers[i].line });
     }
 };
 

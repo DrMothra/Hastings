@@ -53,16 +53,16 @@ body {
     font-style: italic;
 }
 .normalText {
-    font-size: 1em;
+    font-size: 3.4vw;
 }
 .smallerText {
-    font-size: 0.9em;
+    font-size: 2.4vw;
 }
 .smallText {
-    font-size: 0.8em;
+    font-size: 2vw;
 }
 #footerText {
-    font-size: 0.6em;
+    font-size: 1.6vw;
 }
 .purple {
     color: #6b489c;
@@ -73,4 +73,33 @@ body {
 #info {
     text-indent: 0;
     margin-left: 5%;
+}
+/* Media queries */
+@media only screen and (max-width: 1920px) {
+    .normalText {
+        font-size: 1.5vw;
+    }
+    .smallText {
+        font-size: 1.2vw;
+    }
+    #footerText {
+        font-size: 0.8vw;
+    }
+    #imageFooter img {
+        width: 86%;
+    }
+}
+@media only screen and (max-width: 1024px) {
+    .normalText {
+        font-size: 1.5vw;
+    }
+    .smallText {
+        font-size: 1.2vw;
+    }
+    #footerText {
+        font-size: 0.8vw;
+    }
+    #imageFooter img {
+        width: 86%;
+    }
 }
