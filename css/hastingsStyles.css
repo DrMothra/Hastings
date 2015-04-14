@@ -20,7 +20,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 body {
-    overflow: hidden;
     background-color: #71c5ef;
 }
 .centred {
@@ -31,19 +30,19 @@ body {
 }
 #tide {
     top: 8.2%;
-    left: 1.7%;
+    left: 1.2%;
 }
-#swell {
-    top: 8.2%;
-    left: 22%;
+#ripple {
+    top: 10.5%;
+    left: 20.5%;
 }
 #wave {
     top: 39%;
-    left: 22%;
+    left: 20.5%;
 }
-#ripple {
-    top: 70%;
-    left: 22%;
+#swell {
+    top: 68%;
+    left: 20.5%;
 }
 #vertLine {
     position: fixed;
@@ -106,7 +105,34 @@ body {
 #footerText {
     position: fixed;
     top: 92%;
-    left: 11%;
+    left: 10%;
     font-family: "Times New Roman", Times, serif;
     font-size: 3.5em;
+}
+/* Media queries */
+/* This seems a hack!! */
+@media only screen and (min-width: 1020px) {
+    #footerText {
+        left: 4%;
+    }
+}
+@media only screen and (min-width: 1280px) {
+    #footerText {
+        left: 7%;
+    }
+}
+@media only screen and (min-width: 1366px) {
+    #footerText {
+        left: 8%;
+    }
+}
+@media only screen and (min-width: 1680px) {
+    #footerText {
+        left: 10%;
+    }
+}
+@media only screen and (min-width: 1920px) {
+    #footerText {
+        left: 11.5%;
+    }
 }

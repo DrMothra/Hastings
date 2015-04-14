@@ -29,7 +29,8 @@ BaseSmoothApp.prototype.init = function() {
     var pageHeight = window.innerHeight;
     for(var i=0; i<this.containers.length; ++i) {
         this.smoothies.push(new SmoothieChart( {grid:{fillStyle: this.containers[i].background, strokeStyle: 'transparent'}, millisPerPixel:this.mmPerPixel,
-            labels: {disabled: false}, maxValue: this.containers[i].max, minValue: this.containers[i].min} ));
+            labels: {disabled: true}, maxValue: this.containers[i].max, minValue: this.containers[i].min, maxValueScale: this.containers[i].maxScale,
+                minValueScale: this.containers[i].minScale }));
         canvas = document.getElementById(this.containers[i].id);
         canvas.width = pageWidth * this.containers[i].width;
         canvas.height = pageHeight * this.containers[i].height;
