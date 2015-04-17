@@ -23,6 +23,10 @@ BaseSmoothApp.prototype.setLineWidth = function(lineWidth) {
     this.lineWidth = lineWidth;
 };
 
+BaseSmoothApp.prototype.setWaveDelay = function(delay) {
+    this.waveDelay = delay;
+};
+
 BaseSmoothApp.prototype.init = function() {
     var canvas;
     var pageWidth = window.innerWidth;

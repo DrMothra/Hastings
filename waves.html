@@ -8,10 +8,10 @@
     <script type="text/javascript" src="js/smoothie.js?v=0.1"></script>
     <script type="text/javascript" src="js/pubnub.min.js"></script>
     <script type="text/javascript" src="js/pubnub_buffer.js?v=0.3"></script>
-    <script type="text/javascript" src="js/baseSmoothApp.js?v=0.2"></script>
-    <script type="text/javascript" src="js/waves.js?v=0.3"></script>
+    <script type="text/javascript" src="js/baseSmoothApp.js?v=0.3"></script>
+    <script type="text/javascript" src="js/waves.js?v=0.4"></script>
 
-    <link href="css/hastingsStyles.css?v=0.3" rel="stylesheet" type="text/css">
+    <link href="css/hastingsStyles.css?v=0.5" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -19,26 +19,39 @@
     <canvas id="tide">
 
     </canvas>
-    <div id="vertLine">
+    <div id="vertLine" class="vertSep">
 
     </div>
+
     <canvas id="ripple">
 
     </canvas>
-    <div id="topLine">
+    <div id="connectRipple" class="waveInfo">
+        <span>connecting to Hastings Pier, please wait...</span>
+    </div>
+
+    <div id="topLine" class="horizSep">
 
     </div>
+
     <canvas id="wave">
 
     </canvas>
-    <div id="bottomLine">
+    <div id="connectWave" class="waveInfo">
+        <span>connecting to Hastings Pier, please wait...</span>
+    </div>
+
+    <div id="bottomLine" class="horizSep">
 
     </div>
     <canvas id="swell">
 
     </canvas>
+    <div id="connectSwell" class="waveInfo">
+        <span>connecting to Hastings Pier, please wait...</span>
+    </div>
 </div>
-<div id="footerText" class="boldIt italicIt">
+<div id="footerText" class="boldIt">
     <p>
         TIDE / RIPPLE / WAVE / SWELL
     </p>
