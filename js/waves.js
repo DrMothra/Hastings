@@ -36,7 +36,7 @@ SmoothApp.prototype.stopWaiting = function() {
 
 SmoothApp.prototype.createScene = function() {
     //Set up canvas
-    this.canvasDetails = { id:'tide', width: 0.19, height: 0.837, background: '#71c5ef', line: '#000000', delay: 12500, max: 700, min: 0, maxScale: 2.3, minScale: 1.3 };
+    this.canvasDetails = { id:'tide', width: 0.19, height: 0.837, background: '#71c5ef', line: '#000000', delay: 12500, max: 1000, min: 0, maxScale: 2.3, minScale: 1.3 };
 
     this.tideCanvas = document.getElementById(this.canvasDetails.id);
     this.tideCtx = this.tideCanvas.getContext('2d');
