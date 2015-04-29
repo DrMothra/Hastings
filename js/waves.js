@@ -23,6 +23,8 @@ SmoothApp.prototype.init = function() {
     setInterval(function() {
         _this.stopWaiting();
     }, this.waveDelay);
+    //DEBUG
+    this.numSameStamps = 0;
     BaseSmoothApp.prototype.init.call(this);
 };
 
@@ -71,8 +73,14 @@ SmoothApp.prototype.update = function() {
         this.data = this.channel.getLastValue(this.streams[i]);
         if(this.data != undefined) {
             if(this.data.timeStamp !== this.lastTimestamps[i]) {
+                this.numSameStamps = 0;
                 this.lastTimestamps[i] = this.data.timeStamp;
                 this.timeSeries[i].append(this.lastTimestamps[i], this.data.data);
+            } else {
+                ++this.numSameStamps;
+                if(this.numSameStamps >= 12) {
+                    //console.log("Same stamps =", this.numSameStamps);
+                }
             }
         }
     }

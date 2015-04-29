@@ -1,5 +1,7 @@
 (function(){
 
+    //DEBUG
+    var TIME_COUNT = 12;
     var root = this;
 
     var PubNubBuffer;
@@ -15,6 +17,14 @@
         console.log(channel + subscribe_key);
  
         this.timestamp_buffer = new Array(size);
+        //DEBUG
+        this.lastTimestamp_buffer = new Array(size);
+        this.stampCount = new Array(size);
+        for(var i in this.lastTimestamp_buffer) {
+            this.lastTimestamp_buffer[i] = 0;
+            this.stampCount[i] = 0;
+        }
+
         this.value_buffer = new Array(size);
         this.index = 0;
 
@@ -100,6 +110,17 @@
         for(i=search_from; i > -1; i--){
             if(this.timestamp_buffer[i] !== undefined){
                 if(this.timestamp_buffer[i] <= due){
+                    if(this.timestamp_buffer[i] !== this.lastTimestamp_buffer[i]) {
+                        this.lastTimestamp_buffer[i] = this.timestamp_buffer[i];
+                        this.stampCount[i] = 0;
+                    } else {
+                        ++this.stampCount[i];
+                        //DEBUG
+                        if(this.stampCount[i] > TIME_COUNT) {
+                            console.log("Stamps =", this.stampCount[i]);
+                        }
+                    }
+
                     return { data: this.value_buffer[i][channelindex],
                         timeStamp: this.timestamp_buffer[i]};
                 }
@@ -109,6 +130,17 @@
         for(i=this.size - 1; i > search_from ; i--){
             if(this.timestamp_buffer[i] !== undefined){
                 if(this.timestamp_buffer[i] <= due){
+                    if(this.timestamp_buffer[i] !== this.lastTimestamp_buffer[i]) {
+                        this.lastTimestamp_buffer[i] = this.timestamp_buffer[i];
+                        this.stampCount[i] = 0;
+                    } else {
+                        ++this.stampCount[i];
+                        //DEBUG
+                        if(this.stampCount[i] > TIME_COUNT) {
+                            console.log("Stamps =", this.stampCount[i]);
+                        }
+                    }
+                    this.lastTimestamp_buffer[i] = this.timestamp_buffer[i];
                     return { data: this.value_buffer[i][channelindex],
                         timeStamp: this.timestamp_buffer[i]};
                 }
