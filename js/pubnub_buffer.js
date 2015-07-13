@@ -116,9 +116,11 @@
                     } else {
                         ++this.stampCount[i];
                         //DEBUG
+                        /*
                         if(this.stampCount[i] > TIME_COUNT) {
                             console.log("Stamps =", this.stampCount[i]);
                         }
+                        */
                     }
 
                     return { data: this.value_buffer[i][channelindex],
@@ -136,9 +138,11 @@
                     } else {
                         ++this.stampCount[i];
                         //DEBUG
+                        /*
                         if(this.stampCount[i] > TIME_COUNT) {
                             console.log("Stamps =", this.stampCount[i]);
                         }
+                        */
                     }
                     this.lastTimestamp_buffer[i] = this.timestamp_buffer[i];
                     return { data: this.value_buffer[i][channelindex],

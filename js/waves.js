@@ -89,7 +89,7 @@ SmoothApp.prototype.update = function() {
     this.dataMiddle = this.channel.getLastValue('middle');
     if(this.data != undefined && this.dataMiddle != undefined) {
         if(this.data.timeStamp !== this.tideTimestamp && this.dataMiddle.timestamp !== this.middleTimestamp) {
-            this.combinedData = this.data.data + this.dataMiddle.data;
+            this.combinedData = this.data.data/3 + this.dataMiddle.data;
             var scale = (this.combinedData - this.canvasDetails.min)/(this.canvasDetails.max - this.canvasDetails.min);
             var height = (1-scale) * this.tideCanvas.height;
             this.tideTimestamp = this.data.timeStamp;
@@ -107,7 +107,7 @@ SmoothApp.prototype.update = function() {
 
 $(document).ready(function() {
     //Set up smoothie charts
-    var dataDelay = 50000;
+    var dataDelay = 30000;
     var charts = [
         { id: 'ripple', width: 0.78, height: 0.233, background: '#71c5ef', line: '#000000', delay: dataDelay, max: undefined, min: undefined, maxScale: 1.3, minScale: 1.3 },
         { id: 'wave', width: 0.78, height: 0.231, background: '#71c5ef', line: '#000000', delay: dataDelay, max: undefined, min: undefined, maxScale: 1.3, minScale: 1.3 },
