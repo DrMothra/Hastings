@@ -89,7 +89,7 @@ SmoothApp.prototype.update = function() {
     this.dataMiddle = this.channel.getLastValue('middle');
     if(this.data != undefined && this.dataMiddle != undefined) {
         if(this.data.timeStamp !== this.tideTimestamp && this.dataMiddle.timestamp !== this.middleTimestamp) {
-            this.combinedData = this.data.data/3 + this.dataMiddle.data;
+            this.combinedData = this.data.data/2.7 + this.dataMiddle.data;
             var scale = (this.combinedData - this.canvasDetails.min)/(this.canvasDetails.max - this.canvasDetails.min);
             var height = (1-scale) * this.tideCanvas.height;
             this.tideTimestamp = this.data.timeStamp;
